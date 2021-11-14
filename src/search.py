@@ -18,7 +18,7 @@ from hyperopt.pyll.base import scope
 
 def optimize(params, x, y):
     '''
-    Bayesian Optimization of Hyperparameters 
+    HyperOPT Optimization of Hyperparameters 
 
     Args:
         params ([type]): [description]

@@ -20,8 +20,7 @@ import optuna
 
 def optimize(trial, x, y):
     '''
-    Bayesian Optimization of Hyperp arameters 
-
+    Optuna Optimization of Hyperp arameters 
     Args:
 
         x (2D Array): data
@@ -30,8 +29,17 @@ def optimize(trial, x, y):
     Returns:
         minimum of KFold accuracies
     '''
-    #params = dict(zip(param_names, params))
-    model = ensemble.RandomForestClassifier(**params)
+    criterion = trial.suggest_categorical("criterion", ['entropy', 'gini'])
+    n_estimators = trial.suggest_int('n_estimators', 100, 500)
+    max_depth = trial.suggest_int("max_depth", 3, 15)
+    max_features = trial.suggest_uniform("max_features", 0.01, 1.0)
+
+    model = ensemble.RandomForestClassifier(
+        n_estimators=n_estimators,
+        max_depth=max_depth,
+        max_features=max_features,
+        criterion=criterion
+    )
     kf = model_selection.StratifiedKFold(n_splits=5)
     accuracies = []
 
